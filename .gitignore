@@ -3,6 +3,8 @@
 .idea/
 dist/
 
+.env
+
 # dependencies
 /node_modules
 /.pnp

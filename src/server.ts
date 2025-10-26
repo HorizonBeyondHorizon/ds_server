@@ -1,10 +1,13 @@
 import express from 'express';
+import dotenv from "dotenv";
 import {WebSocket, WebSocketServer} from 'ws';
 import {createServer} from 'http';
 import {ClientMessage, CreateLobbyRequest, JoinLobbyRequest, UpdatedPositionRequest} from './types/index';
 import {v4 as uuidv4} from 'uuid';
 import {GameConnectionManager} from "./managers/ConnectionManager";
 import {RoomManager} from "./managers/RoomManager";
+
+dotenv.config();
 
 const app = express();
 const server = createServer(app);
