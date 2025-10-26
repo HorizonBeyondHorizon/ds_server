@@ -5,14 +5,16 @@ import {Vec} from "../utils/Vec";
 export class Predator {
     public id: string;
     public playerId: string;
+    public playerName: string;
     public serverPosition: Vec;
     public clientPosition: Vec;
     public color: string;
     public radius = 12;
 
-    constructor(playerId: string, color: string, startX: number, startY: number) {
+    constructor(playerId: string, playerName: string, color: string, startX: number, startY: number) {
         this.id = uuidv4();
         this.playerId = playerId;
+        this.playerName = playerName;
         this.serverPosition = new Vec(startX, startY);
         this.clientPosition = new Vec(startX, startY);
         this.color = color;
@@ -31,6 +33,7 @@ export class Predator {
         return {
             id: this.id,
             playerId: this.playerId,
+            playerName: this.playerName,
             position: this.serverPosition,
             color: this.color,
         };

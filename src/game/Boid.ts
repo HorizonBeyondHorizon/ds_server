@@ -16,14 +16,15 @@ export class Boid {
     private perceptionRadius = 60;
     private fleeRadius = 60;
 
-    constructor(x: number, y: number) {
+    constructor(x: number, y: number, color: string) {
         this.id = uuidv4();
         this.position = new Vec( x, y );
         this.velocity = new Vec( 0, 0 );
         this.acceleration = new Vec( 0, 0 );
 
-        const colors = ['#4CAF50', '#F44336', '#2196F3', '#FFEB3B'];
-        this.color = colors[Math.floor(Math.random() * colors.length)];
+        // const colors = ['#4CAF50', '#F44336', '#2196F3', '#FFEB3B'];
+        // this.color = colors[Math.floor(Math.random() * colors.length)];
+        this.color = color;
         this.separated = false;
     }
 

@@ -16,6 +16,7 @@ export interface BoidState {
 export interface PredatorState {
     id: string;
     playerId: string;
+    playerName: string;
     position: Vec;
     color: string;
 }
@@ -24,17 +25,48 @@ export interface GameState {
     boids: BoidState[];
     predators: PredatorState[];
     gameStarted: boolean;
+    roomId: string;
+}
+
+export interface LobbyInfo {
+    roomId: string;
+    roomName: string;
+    hostName: string;
+    playerCount: number;
+    maxPlayers: number;
+    boidGroups: number;
+    boidsPerGroup: number;
+    status: 'waiting' | 'in_progress' | 'finished';
+}
+
+export interface CreateLobbyRequest {
+    playerName: string;
+    roomName?: string;
+    boidGroups: number;
+    boidsPerGroup: number;
+    maxPlayers: number;
+}
+
+export interface JoinLobbyRequest {
+    playerName: string;
+    roomId: string;
+}
+
+export interface UpdatedPositionRequest {
+    position: Vector2D;
 }
 
 export interface ClientMessage {
-    type: 'join' | 'input' | 'start_game';
+    type: 'create_lobby' | 'join_lobby' | 'input' | 'start_game' | 'leave_lobby' | 'get_lobbies';
+    payload?: CreateLobbyRequest | JoinLobbyRequest | UpdatedPositionRequest;
     playerId: string;
-    position?: Vector2D;
 }
 
 export interface ServerMessage {
-    type: 'game_state' | 'player_joined' | 'game_started' | 'error';
+    type: 'lobby_created' | 'lobby_joined' | 'game_state' | 'lobby_list' | 'player_joined' | 'player_left' | 'game_started' | 'error';
     gameState?: GameState;
+    lobby?: LobbyInfo;
+    lobbies?: LobbyInfo[];
     playerId?: string;
     predatorId?: string;
     error?: string;

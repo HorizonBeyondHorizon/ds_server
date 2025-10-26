@@ -12,24 +12,30 @@ export class Game {
 
     private readonly predatorColors = ['#F44336', '#2196F3', '#4CAF50', '#FFEB3B'];
 
-    constructor() {
-        this.initializeBoids(200);
+    constructor(boidGroups: number, boidsPerGroup: number) {
+        this.initializeBoids(boidGroups, boidsPerGroup);
     }
 
-    private initializeBoids(count: number): void {
+    private initializeBoids(boidGroups: number, boidsPerGroup: number): void {
         this.boids = [];
-        for (let i = 0; i < count; i++) {
-            const x = Math.random() * (this.canvasWidth - 200) + 100;
-            const y = Math.random() * (this.canvasHeight - 200) + 100;
-            this.boids.push(new Boid(x, y));
+
+        const colors = ['#4CAF50', '#F44336', '#2196F3', '#FFEB3B'].slice(0, boidGroups);
+
+        for (let i = 0; i < boidGroups; i++) {
+            for (let j = 0; j < boidsPerGroup; j++) {
+                const x = Math.random() * (this.canvasWidth - 200) + 100;
+                const y = Math.random() * (this.canvasHeight - 200) + 100;
+                const boid = new Boid(x, y, colors[i]);
+                this.boids.push(boid);
+            }
         }
     }
 
-    addPlayer(playerId: string): string | null {
+    addPlayer(playerId: string,  playerName: string): string | null {
         if (this.predators.length >= 4) return null;
 
         const color = this.predatorColors[this.predators.length];
-        const predator = new Predator(playerId, color, this.canvasWidth/2, this.canvasHeight/2);
+        const predator = new Predator(playerId, playerName, color, this.canvasWidth/2, this.canvasHeight/2);
 
         this.predators.push(predator);
 
@@ -64,7 +70,7 @@ export class Game {
         this.gameStarted = true;
     }
 
-    getState(): GameState {
+    getState(): Omit<GameState, "roomId"> {
         return {
             boids: this.boids.map(boid => boid.getState()),
             predators: this.predators.map(predator => predator.getState()),
